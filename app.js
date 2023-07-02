@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const https = require('https');
+const e = require('express');
 
 const app = express();
 app.use(express.static("public"));
@@ -18,6 +19,10 @@ app.post('/', urlEncodedParser, (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
+
+    console.log("-------------------------------- Subscriber request --------------------------------")
+    console.log("firstName: " + firstName + ", lastName: " + lastName+ ", email: " +email);
+    console.log("-------------------------------- Subscriber request --------------------------------")
 
     const url = "https://us8.api.mailchimp.com/3.0/lists/" + listId;
     const options = {
@@ -44,6 +49,10 @@ app.post('/', urlEncodedParser, (req, res) => {
     const request = https.request(url ,options, function (response) {
         response.on("data", function (data) {
             const responseData = JSON.parse(data);
+            console.log("-------------------------------- Mail RESPONSE --------------------------------")
+            console.log(responseData);
+            console.log("-------------------------------- Mail RESPONSE --------------------------------")
+
             if((response.statusCode <= 200 || response.statusCode > 299) && responseData.error_count === 0){
                 res.sendFile(__dirname + '/html/success.html');
             } else {
