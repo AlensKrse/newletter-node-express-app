@@ -8,8 +8,8 @@ app.use(express.static("public"));
 const port = process.env.PORT || 3000;
 const urlEncodedParser = bodyParser.urlencoded({ extended:false });
 
-const mailChipKey = "481f4ffa4e2cee679387aad95cc51284-us8";
-const listId = "daf260e025"
+const mailChipKey = process.env.mailchimp-key;
+const listId = process.env.list-id;
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/html/signup/signup.html');
